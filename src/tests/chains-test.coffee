@@ -3,24 +3,50 @@ expect = require('chai').expect
 
 debug = require("debug")("bluebird-chains:tests")
 
-
+getRandomArbitrary = (min, max) ->
+  return Math.random() * (max - min) + min
 
 describe 'Testing Chains', () ->
+  it 'concurrency consistancy check', () ->
+    len = 5
+    p = []
+    initData = 10
+    p.push (data) ->
+      return new Promise (resolve, reject) ->
+        data = data / 2
+        resolve(data)
+    p.push (data) ->
+      return new Promise (resolve, reject) ->
+        ex = () ->
+          r = new Promise (res, rej) ->
+            data = data + 2
+            res(data)
+          r.then resolve, reject
+        setTimeout(ex, getRandomArbitrary(0, 500))
+    p.push (data) ->
+      return new Promise (resolve, reject) ->
+        data = data * 3
+        resolve(data)
+    Promise.chains.concat(p, initData).then (result) ->
+      expect(result).to.equal(((initData / 2) + 2) * 3)
+
   it 'Concat test with functions', () ->
-    len = 2
+    len = 5
     p = []
     count = 0
     for i in [0...len]
       p.push (a = 0) ->
         return new Promise (resolve, reject) ->
           ex = () ->
-            debug "in", a
-            expect(count).to.equal(a)
-            count++
-            c = a + 1
-            debug "out",  c
-            resolve(c)
-          setTimeout(ex, 100)
+            v = new Promise (rs, rj) ->
+              debug "in", a
+              expect(count).to.equal(a)
+              count++
+              c = a + 1
+              debug "out",  c
+              resolve(c)
+            v.then resolve, reject
+          setTimeout(ex, getRandomArbitrary(0, 200))
     Promise.chains.concat(p, 0).then (result) ->
       expect(result).to.equal(len)
 

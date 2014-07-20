@@ -1,7 +1,7 @@
 Promise = require 'bluebird'
 util = require 'util'
 
-debug = require("debug")("bluebird-chains:main")
+debug = require("debug")("bluebird-chains:chains")
 
 isFunction = (functionToCheck) ->
   return functionToCheck && ({}).toString.call(functionToCheck) is '[object Function]'
@@ -20,7 +20,7 @@ class Chains
     return new Promise (resolve, reject) =>
       @collect = []
       return @loops(@data, args, true)
-      #eturn Chains.ex(@data, args, 0, false, @options.collect, [])
+      #return Chains.ex(@data, args, 0, false, @options.collect, [])
         .then resolve, reject
   collect: () =>
     args = arguments
@@ -33,19 +33,28 @@ class Chains
   loops: (data, args,concat = false) =>
     return new Promise (resolve, reject) =>
       onComplete = (a) =>
-        @collect.push a
-        debug "execute complete", arguments, @collect
-        @loops(data, arguments, concat).then resolve, reject
+        if a?
+          @collect.push a
+        debug "execute complete"
+        @loops(data, arguments, concat)
+          .then(resolve, reject)
+          .catch (e) ->
+            debug "error caught", e
       p = data.shift()
       if p?
         if isFunction(p)
-          debug "executing promise function", args
-          return p.apply(undefined, args).then onComplete, reject
+          debug "executing promise function"
+          return p.apply(undefined, args)
+            .then(onComplete, reject)
+            .catch (e) ->
+              debug "error caught", e
         if p instanceof Promise
           debug "executing promise"
-          return p.then onComplete, reject
+          return p.then(onComplete, reject)
+            .catch (e) ->
+              debug "error caught", e
 
-      debug "finished", @collect, concat
+      debug "finished", @collect.length, concat
       if concat
         return resolve(@collect[@collect.length-1])
       else
