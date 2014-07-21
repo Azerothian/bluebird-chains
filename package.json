@@ -1,6 +1,6 @@
 {
-  "name": "bluebird-chains",
-  "version": "0.0.2",
+  "name": "chains",
+  "version": "0.0.3",
   "description": "Waterfall method for consecutive execution of promises",
   "main": "build/index.js",
   "files": [
