@@ -1,7 +1,9 @@
-Promise = require "../index"
+
+Promise = require "bluebird"
+Chains = require "../index"
 expect = require('chai').expect
 
-debug = require("debug")("bluebird-chains:tests")
+debug = require("debug")("chains:tests")
 
 getRandomArbitrary = (min, max) ->
   return Math.random() * (max - min) + min
@@ -9,8 +11,9 @@ getRandomArbitrary = (min, max) ->
 describe 'Testing Chains', () ->
   it 'concurrency consistancy check', () ->
     len = 5
-    p = []
+    p = new Chains
     initData = 10
+    argData = 29
     p.push (data) ->
       return new Promise (resolve, reject) ->
         data = data / 2
@@ -23,16 +26,19 @@ describe 'Testing Chains', () ->
             res(data)
           r.then resolve, reject
         setTimeout(ex, getRandomArbitrary(0, 500))
+    , [argData]
     p.push (data) ->
       return new Promise (resolve, reject) ->
         data = data * 3
         resolve(data)
-    Promise.chains.concat(p, initData).then (result) ->
-      expect(result).to.equal(((initData / 2) + 2) * 3)
+    debug "start"
+    p.last(initData).then (result) ->
+      debug "end", result
+      expect(result).to.equal((argData + 2) * 3)
 
-  it 'Concat test with functions', () ->
+  it 'Last test with functions', () ->
     len = 5
-    p = []
+    p = new Chains
     count = 0
     for i in [0...len]
       p.push (a = 0) ->
@@ -47,28 +53,8 @@ describe 'Testing Chains', () ->
               resolve(c)
             v.then resolve, reject
           setTimeout(ex, getRandomArbitrary(0, 200))
-    Promise.chains.concat(p, 0).then (result) ->
+    debug "start"
+    p.last(0).then (result) ->
+      debug "end"
       expect(result).to.equal(len)
-
-  it 'Concat test with promises', () ->
-    len = 2
-    p = []
-    i = 0
-    for i in [0...len]
-      p.push new Promise (resolve, reject) ->
-        i++
-        resolve(i)
-    Promise.chains.concat(p).then (result) ->
-      debug "fin", result
-      expect(result).to.equal(len)
-  it 'Collect test with promises', () ->
-    len = 2
-    p = []
-    i = 0
-    for i in [0...len]
-      p.push new Promise (resolve, reject) ->
-        i++
-        resolve(i)
-    Promise.chains.collect(p).then (result) ->
-      debug "fin", result
-      expect(result.length).to.equal(len)
+      expect(p.data.length).to.equal(len)
