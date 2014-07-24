@@ -27,7 +27,10 @@ class Chains
     return new Promise (resolve, reject) =>
       collect = []
       return @loops(@data.slice(0), args, concat, collect)
-        .then resolve, reject
+        .then(resolve, reject)
+        .catch (e) ->
+          debug "run error", e
+          reject(e)
 
   loops: (data, args, concat = false, collect) =>
     return new Promise (resolve, reject) =>
@@ -39,6 +42,7 @@ class Chains
           .then(resolve, reject)
           .catch (e) ->
             debug "error caught", e
+            reject(e)
       p = data.shift()
       if p?
         debug "executing promise function"
@@ -49,7 +53,7 @@ class Chains
             .then(onComplete, reject)
             .catch (e) ->
               debug "error caught", e
-
+              reject(e)
 
       debug "finished", collect.length, concat, collect
 
