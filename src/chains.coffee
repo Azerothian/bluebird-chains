@@ -1,7 +1,7 @@
 Promise = require 'bluebird'
 util = require 'util'
 
-debug = require("debug")("chains:main")
+debug = require("debug")("bluebird-chains:main")
 
 isFunction = (functionToCheck) ->
   return functionToCheck && ({}).toString.call(functionToCheck) is '[object Function]'

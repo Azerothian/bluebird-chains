@@ -13,8 +13,8 @@
     "type": "git",
     "url": "https://github.com/Azerothian/bluebird-chains.git"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "Azerothian",
+  "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/Azerothian/bluebird-chains/issues"
   },
