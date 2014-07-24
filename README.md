@@ -1,4 +1,4 @@
-# Chains
+# Bluebird Chains
 ============
 Chains is a function based list to queue and execute promises sequentially
 
