@@ -12,4 +12,4 @@ You are able to apply different arguments for individual promises
 if you do not provide an argument, the previous promise result will be applied
 
 ## Documentation
-(Click Here For Documentation)[http://azerothian.github.io/bluebird-chains]
+http://azerothian.github.io/bluebird-chains

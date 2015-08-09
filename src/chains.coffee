@@ -14,12 +14,12 @@ isFunction = (functionToCheck) ->
 #     return new Promise (resolve, reject) ->
 #       console.log "args", arg1, arg2
 #       return resolve()
-#     promises = new Chains()
-#     array = [1,2,3]
-#     for i in [0...array.length]
-#       promises.push func, [i, i+1]
-#     promises.run().then () ->
-#       console.log "finished"
+#   promises = new Chains()
+#   array = [1,2,3]
+#   for i in [0...array.length]
+#     promises.push func, [i, i+1]
+#   promises.run().then () ->
+#     console.log "finished"
 class Chains
   # Contruct a new bluebird-chains class
   constructor: () ->
