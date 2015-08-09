@@ -1,6 +1,6 @@
 {
   "name": "bluebird-chains",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Waterfall method for consecutive execution of promises",
   "main": "build/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "url": "https://github.com/Azerothian/bluebird-chains.git"
   },
   "author": "Azerothian",
-  "license": "GPLv2",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azerothian/bluebird-chains/issues"
   },

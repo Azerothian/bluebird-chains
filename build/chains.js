@@ -2,11 +2,11 @@
   var Chains, Promise, debug, isFunction, util,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  Promise = require('bluebird');
+  Promise = require('native-or-bluebird');
 
   util = require('util');
 
-  debug = require("debug")("chains:main");
+  debug = require("debug")("bluebird-chains");
 
   isFunction = function(functionToCheck) {
     return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
