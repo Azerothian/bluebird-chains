@@ -1,6 +1,6 @@
 {
   "name": "bluebird-chains",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Waterfall method for consecutive execution of promises",
   "main": "build/index.js",
   "files": [
@@ -20,8 +20,9 @@
   },
   "homepage": "https://github.com/Azerothian/bluebird-chains",
   "dependencies": {
-    "bluebird": "^2.2.2",
-    "debug": "^1.0.4"
+    "bluebird": "^2.9.34",
+    "debug": "^2.2.0",
+    "native-or-bluebird": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
