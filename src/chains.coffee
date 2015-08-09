@@ -1,28 +1,49 @@
-Promise = require 'bluebird'
+Promise = require 'native-or-bluebird'
 util = require 'util'
 
-debug = require("debug")("bluebird-chains:main")
+debug = require("debug")("bluebird-chains")
 
 isFunction = (functionToCheck) ->
   return functionToCheck && ({}).toString.call(functionToCheck) is '[object Function]'
 
-
+# Chains
+# @example Parsing custom arguments to each promise
+#   Promise = require "native-or-bluebird"
+#   Chains = require "bluebird-chains"
+#   func = (arg1, arg2) ->
+#     return new Promise (resolve, reject) ->
+#       console.log "args", arg1, arg2
+#       return resolve()
+#     promises = new Chains()
+#     array = [1,2,3]
+#     for i in [0...array.length]
+#       promises.push func, [i, i+1]
+#     promises.run().then () ->
+#       console.log "finished"
 class Chains
+  # Contruct a new bluebird-chains class
   constructor: () ->
     @data = []
-
+  # Push a new promise into the array
+  # @param [Function] function pointer to execute.
+  # @param [Array] optional arguments to provide to function, otherwise arguments will be the provided by the run function or the prior resolve statement (depending where the function is in the array). Using this will override any args reference from last, collect or run
+  # @param [Object] optional context object aka what [this] will be set to when executing.
   push: (func, args, context) =>
     if !isFunction(func)
       throw "Unable to add promise as it is not a function, functions are require for delayed execution"
     @data.push { func: func, args: args, context: context }
 
-
+  # collect is an execution function, it will trigger the promise waterfall and return the last resolve parameters as the arguments for the then function.
+  # @param [arguments] all arguments provided will be supplied to the first executing function
   last: () ->
     return @run(arguments, true)
-
+  # collect is an execution function, it will trigger the promise waterfall and return an array of all resolve parameters.
+  # @param [arguments] all arguments provided will be supplied to the first executing function
   collect: () ->
     return @run(arguments, false)
-
+  # run is an execution function, it will trigger the promise waterfall
+  # @param [Array] Arguments to provided to the first executing function
+  # @param [Boolean] True to provided the last result as an array of all results or False for just the last one
   run: (args, concat) =>
     return new Promise (resolve, reject) =>
       collect = []
@@ -31,7 +52,7 @@ class Chains
         .catch (e) ->
           debug "run error", e
           reject(e)
-
+  # loops is the smarts of this library this should never be access external, refer to last, collect, or run
   loops: (data, args, concat = false, collect) =>
     return new Promise (resolve, reject) =>
       onComplete = (a) =>
