@@ -76,7 +76,7 @@ promises.run().then () -&gt;
     <span class='signature'>
       <a href='#last-dynamic'>
         #
-(void)
+(Promise)
 <b>last</b><span>()</span>
       </a>
     </span>
@@ -88,7 +88,7 @@ promises.run().then () -&gt;
     <span class='signature'>
       <a href='#collect-dynamic'>
         #
-(void)
+(Promise)
 <b>collect</b><span>()</span>
       </a>
     </span>
@@ -100,7 +100,7 @@ promises.run().then () -&gt;
     <span class='signature'>
       <a href='#run-dynamic'>
         #
-(void)
+(Promise)
 <b>run</b><span>(args, concat)</span>
       </a>
     </span>
@@ -118,8 +118,9 @@ promises.run().then () -&gt;
       </a>
     </span>
     <span class='bound note title'>Bound</span>
+    <span class='note private title'>Private</span>
     <span class='desc'>
-      loops is the smarts of this library this should never be access external, refer to last, collect, or run 
+      Do Not Use - loops is the smarts of this library this should never be access external, refer to last, collect, or run 
     </span>
   </li>
 </ul>
@@ -156,34 +157,34 @@ promises.run().then () -&gt;
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>function</span>
+      <span class='name'>func</span>
       <span class='type'>
         (
           <tt>Function</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>pointer to execute. </span>
+      <span class='desc'>function pointer to execute. </span>
     </li>
     <li>
-      <span class='name'>optional</span>
+      <span class='name'>args</span>
       <span class='type'>
         (
           <tt>Array</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>arguments to provide to function, otherwise arguments will be the provided by the run function or the prior resolve statement (depending where the function is in the array). Using this will override any args reference from last, collect or run </span>
+      <span class='desc'>optional arguments to provide to function, otherwise arguments will be the provided by the run function or the prior resolve statement (depending where the function is in the array). Using this will override any args reference from last, collect or run </span>
     </li>
     <li>
-      <span class='name'>optional</span>
+      <span class='name'>context</span>
       <span class='type'>
         (
           <tt>Object</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>context object aka what [this] will be set to when executing. </span>
+      <span class='desc'>optional context object aka what [this] will be set to when executing. </span>
     </li>
   </ul>
 </div>
@@ -191,7 +192,7 @@ promises.run().then () -&gt;
   <div class='method_details'>
     <p class='signature' id='last-dynamic'>
       #
-(void)
+(Promise)
 <b>last</b><span>()</span>
       <br>
     </p>
@@ -209,7 +210,14 @@ promises.run().then () -&gt;
         )
       </span>
       &mdash;
-      <span class='desc'>arguments provided will be supplied to the first executing function </span>
+      <span class='desc'>all arguments provided will be supplied to the first executing function </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <tt>Promise</tt>
     </li>
   </ul>
 </div>
@@ -217,7 +225,7 @@ promises.run().then () -&gt;
   <div class='method_details'>
     <p class='signature' id='collect-dynamic'>
       #
-(void)
+(Promise)
 <b>collect</b><span>()</span>
       <br>
     </p>
@@ -235,7 +243,14 @@ promises.run().then () -&gt;
         )
       </span>
       &mdash;
-      <span class='desc'>arguments provided will be supplied to the first executing function </span>
+      <span class='desc'>all arguments provided will be supplied to the first executing function </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <tt>Promise</tt>
     </li>
   </ul>
 </div>
@@ -243,7 +258,7 @@ promises.run().then () -&gt;
   <div class='method_details'>
     <p class='signature' id='run-dynamic'>
       #
-(void)
+(Promise)
 <b>run</b><span>(args, concat)</span>
       <span class='bound note'>Bound</span>
       <br>
@@ -255,24 +270,31 @@ promises.run().then () -&gt;
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>Arguments</span>
+      <span class='name'>args</span>
       <span class='type'>
         (
           <tt>Array</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>to provided to the first executing function </span>
+      <span class='desc'>Arguments to provided to the first executing function </span>
     </li>
     <li>
-      <span class='name'>True</span>
+      <span class='name'>concat</span>
       <span class='type'>
         (
           <tt>Boolean</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>to provided the last result as an array of all results or False for just the last one </span>
+      <span class='desc'>True to provided the last result as an array of all results or False for just the last one </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <tt>Promise</tt>
     </li>
   </ul>
 </div>
@@ -283,18 +305,62 @@ promises.run().then () -&gt;
 (void)
 <b>loops</b><span>(data, args, concat = false, collect)</span>
       <span class='bound note'>Bound</span>
+      <span class='note private'>Private</span>
       <br>
     </p>
     <div class='docstring'>
-  <p>loops is the smarts of this library this should never be access external, refer to last, collect, or run</p>
+  <p>Do Not Use - loops is the smarts of this library this should never be access external, refer to last, collect, or run</p>
 </div>
 <div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>data</span>
+      <span class='type'>
+        (
+          <tt>Array</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>This a index based array of promises to be executed </span>
+    </li>
+    <li>
+      <span class='name'>args</span>
+      <span class='type'>
+        (
+          <tt>Array</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>arguments to be supplied to the next function to execute </span>
+    </li>
+    <li>
+      <span class='name'>concat</span>
+      <span class='type'>
+        (
+          <tt>Boolean</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>True to concat results and provide at end of execution tree </span>
+    </li>
+    <li>
+      <span class='name'>collect</span>
+      <span class='type'>
+        (
+          <tt>Array</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>object that holds the collected results of the executed promises </span>
+    </li>
+  </ul>
 </div>
   </div>
 </div>
     </div>
     <div id='footer'>
-  August 09, 15 17:04:40 by
+  August 09, 15 17:27:13 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

@@ -25,25 +25,28 @@ class Chains
   constructor: () ->
     @data = []
   # Push a new promise into the array
-  # @param [Function] function pointer to execute.
-  # @param [Array] optional arguments to provide to function, otherwise arguments will be the provided by the run function or the prior resolve statement (depending where the function is in the array). Using this will override any args reference from last, collect or run
-  # @param [Object] optional context object aka what [this] will be set to when executing.
+  # @param func [Function] function pointer to execute.
+  # @param args [Array] optional arguments to provide to function, otherwise arguments will be the provided by the run function or the prior resolve statement (depending where the function is in the array). Using this will override any args reference from last, collect or run
+  # @param context [Object] optional context object aka what [this] will be set to when executing.
   push: (func, args, context) =>
     if !isFunction(func)
       throw "Unable to add promise as it is not a function, functions are require for delayed execution"
     @data.push { func: func, args: args, context: context }
 
   # collect is an execution function, it will trigger the promise waterfall and return the last resolve parameters as the arguments for the then function.
-  # @param [arguments] all arguments provided will be supplied to the first executing function
+  # @param all [arguments] all arguments provided will be supplied to the first executing function
+  # @return [Promise]
   last: () ->
     return @run(arguments, true)
   # collect is an execution function, it will trigger the promise waterfall and return an array of all resolve parameters.
-  # @param [arguments] all arguments provided will be supplied to the first executing function
+  # @param all [arguments] all arguments provided will be supplied to the first executing function
+  # @return [Promise]
   collect: () ->
     return @run(arguments, false)
   # run is an execution function, it will trigger the promise waterfall
-  # @param [Array] Arguments to provided to the first executing function
-  # @param [Boolean] True to provided the last result as an array of all results or False for just the last one
+  # @param args [Array] Arguments to provided to the first executing function
+  # @param concat [Boolean] True to provided the last result as an array of all results or False for just the last one
+  # @return [Promise]
   run: (args, concat) =>
     return new Promise (resolve, reject) =>
       collect = []
@@ -52,7 +55,12 @@ class Chains
         .catch (e) ->
           debug "run error", e
           reject(e)
-  # loops is the smarts of this library this should never be access external, refer to last, collect, or run
+  # Do Not Use - loops is the smarts of this library this should never be access external, refer to last, collect, or run
+  # @private
+  # @param data [Array] This a index based array of promises to be executed
+  # @param args [Array] arguments to be supplied to the next function to execute
+  # @param concat [Boolean] True to concat results and provide at end of execution tree
+  # @param collect [Array] object that holds the collected results of the executed promises
   loops: (data, args, concat = false, collect) =>
     return new Promise (resolve, reject) =>
       onComplete = (a) =>
