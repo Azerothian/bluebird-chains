@@ -47,12 +47,12 @@ func = (arg1, arg2) -&gt;
   return new Promise (resolve, reject) -&gt;
     console.log &quot;args&quot;, arg1, arg2
     return resolve()
-  promises = new Chains()
-  array = [1,2,3]
-  for i in [0...array.length]
-    promises.push func, [i, i+1]
-  promises.run().then () -&gt;
-    console.log &quot;finished&quot;</code></pre>
+promises = new Chains()
+array = [1,2,3]
+for i in [0...array.length]
+  promises.push func, [i, i+1]
+promises.run().then () -&gt;
+  console.log &quot;finished&quot;</code></pre>
   </div>
 </div>
 <div class='tags'>
@@ -294,7 +294,7 @@ func = (arg1, arg2) -&gt;
 </div>
     </div>
     <div id='footer'>
-  August 09, 15 16:42:10 by
+  August 09, 15 17:04:40 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>
